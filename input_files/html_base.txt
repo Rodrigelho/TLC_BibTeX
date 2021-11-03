@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TLC 1</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+</head>
+<style type="text/css">
+body {
+	margin:10px;
+    background:#B0C4DE;
+	
+}
+
+#box {
+	margin:auto;
+    margin-bottom: 50px;
+    width:600px;
+	padding:50px;
+	background:#F0FFFF;
+    white-space:pre;
+	font-size:smaller;
+	font-family:monospace;    
+    border: 2px solid grey;
+    border-radius: 50px;
+}
+
+
+strong{
+    font-size:25px;
+}
+p{
+    font-size:15px;
+}
+
+
+
+
+
+
+
+</style>
+
+<body>
+
+<h1 align="center">Categorias do BibTeX</h1>
+
+@
+
+
+
+</body>
+</html>
