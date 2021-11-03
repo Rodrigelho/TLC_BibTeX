@@ -85,13 +85,14 @@ class Author(Person):
     def __init__(self,author):
         super().__init__(author)
         self.publications = []
-        self.colaborators = {}
+        self.colaborators = []
 
     def add_colaborator(self,name,val=1):
-        try:
-            self.colaborators[name] += val
-        except:
-            self.colaborators[name] = val
+        self.colaborators.append(Author(name))
+
+    def add_auth_colaborator(self,author):
+        self.colaborators.append(author)
+
 
     def add_publication(self,doc):
         self.publications.append(doc.title)
@@ -102,7 +103,7 @@ class Author(Person):
     def concat_author(self, author):
         self.publications += author.publications
         for colab in author.colaborators:
-            self.add_colaborator(colab,author.colaborators[colab])
+            self.add_auth_colaborator(colab)
 
     def clean_authors(self,dic):
         aux_colaborators = {}

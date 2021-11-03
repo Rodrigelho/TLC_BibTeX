@@ -2,6 +2,8 @@ import enum
 from functions import Author, Document, applyER_text, count_matches, sub_array ,split_array, search_array
 import re
 
+from grafo import Grafo
+
 PATH = ''
 FILENAME = 'exemplo-utf8.bib'
 FILE = PATH+FILENAME
@@ -52,8 +54,15 @@ if __name__ == '__main__':
             dic_names[dic_authors[a].get_iniciales()] += [dic_authors[a]]
         except:
             dic_names[dic_authors[a].get_iniciales()] = [dic_authors[a]]
-    
+
+            
+    grafo=Grafo()
+    grafo.load_names(list(dic_authors.values()))
+    grafo.map_authors()
+    grafo.generate_graph("authors_colaborations.txt")
+    grafo.generate_graph_author(dic_authors['Alexandre Carvalho'],"author_colaboration.txt")
+
     with open('authors.txt','w',encoding='UTF-8') as f:
         for a in authors:
-            dic_authors[a].clean_authors(dic_names)
+            #dic_authors[a].clean_authors(dic_names)
             print(dic_authors[a].get_name(),file=f)
