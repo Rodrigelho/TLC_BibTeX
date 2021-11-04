@@ -1,5 +1,4 @@
 import re
-import numpy as np
 
 EXTRACT_NAME_ER = r'([A-Z])(.+ +)+(.+)$'
 CORRECT_NAME_ER = r'(.+), *(.+)'
@@ -11,6 +10,16 @@ class Document:
         self.key = key
         self.authors = sub_array(sub_array(sub_array(authors,CORRECT_NAME_ER,r'\2 \1'),r' $',r''),SPECIAL_CHARS_ER,get_specialchars)
         self.title = re.sub(SPECIAL_CHARS_ER,get_specialchars,title)
+    
+    def clear_authors(self,dic):
+        self.Authors = []
+        for author in self.authors:
+            aux = Person(author)
+            colaborators = dic[aux.get_iniciales()]
+            for colab in colaborators:
+                if colab.is_samePerson(aux):
+                    self.Authors.append(colab.get_name())
+
     
 class Person:
     def __init__(self,name):
@@ -26,21 +35,21 @@ class Person:
             if '.' in self.FirstName:
                 if len(self.FirstName) > 2:
                     self.middle_inicial = self.FirstName[-2]
-                self.Name += self.FirstName[:1]+'. '
+                self.Name += self.FirstName+' '
                 self.FirstName = None
             else:
                 self.Name += self.FirstName+' '
             if len(splits)>2:
                 self.MiddleName = ""
                 for s in splits[1:-1]:
-                    self.MiddleName += s
+                    self.MiddleName += s+' '
                 if '.' in self.MiddleName:
-                    self.middle_inicial = self.MiddleName[:-1]
+                    self.middle_inicial = re.sub(r'[. ]','',self.MiddleName)
                     self.MiddleName = None
                     self.Name += self.middle_inicial+'. '
                 else:
                     self.middle_inicial = self.MiddleName[0]
-                    self.Name += self.MiddleName+' '
+                    self.Name += self.MiddleName
             else:
                 self.MiddleName = None
             self.LastName = f'{match.group(3)}{match.group(4)}'
@@ -91,6 +100,7 @@ class Author(Person):
         try:
             self.colaborators[name] += val
         except:
+            self.colaborators[name] = 1
             self.colaborators[name] = val
 
     def add_publication(self,doc):
@@ -102,7 +112,7 @@ class Author(Person):
     def concat_author(self, author):
         self.publications += author.publications
         for colab in author.colaborators:
-            self.add_colaborator(colab,author.colaborators[colab])
+            self.add_colaborator(colab)
 
     def clean_authors(self,dic):
         aux_colaborators = {}
