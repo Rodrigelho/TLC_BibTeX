@@ -136,7 +136,15 @@ class Author(Person):
                 if colab.is_samePerson(aux):
                     aux_colaborators[colab.get_name()] = self.colaborators[auth]
         self.colaborators = aux_colaborators
-        
+    
+    def make_objects(self,dic):
+        authors = list(self.colaborators.keys())
+        authors.sort()
+        objects_authors = []
+        for auth in authors:
+            objects_authors.append(dic[auth])
+        self.colaborators = objects_authors
+
     def print_author(self):
         print(f'{self.raw_name}:\n  Publicaciones:')
         for pub in self.publications:
