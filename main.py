@@ -1,4 +1,5 @@
-from libs.functions import Author, Document, applyER_text, count_matches, sub_array ,split_array
+from libs.functions import applyER_text, count_matches, sub_array ,split_array
+from libs.objects import Author, Document
 from libs.grafo import Grafo
 from libs.html_indexer import write_to_file, write_document
 
@@ -54,21 +55,20 @@ if __name__ == '__main__':
         except:
             dic_names[dic_authors[a].get_iniciales()] = [dic_authors[a]]
         author = dic_authors[a]
-        dic_authors[a] = (i,author)
 
     for a in authors:
-        dic_authors[a][1].clean_authors(dic_names)
+        dic_authors[a].clean_authors(dic_names)
 
     for doc in DOCUMENTS:
         doc.clear_authors(dic_names)
-
-
+    
     write_to_file(dic_categories,OUT_PATH+"exercise2.html")
     write_document(DOCUMENTS,OUT_PATH+"exercise1.html")
 
     grafo=Grafo()
-    grafo.load_names(dic_authors)
+    grafo.load_names(list(dic_authors.values()))
     grafo.map_authors()
-    grafo.generate_graph(OUT_PATH+"authors_colaborations.txt")
-    grafo.generate_graph_author('Alexandre Carvalho',OUT_PATH+"author_colaboration.txt")
+    grafo.generate_graph("authors_colaborations.txt")
+    grafo.generate_graph_author(dic_authors['Alexandre Carvalho'],"author_colaboration.txt")
+
 
