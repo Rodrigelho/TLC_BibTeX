@@ -1,74 +1,63 @@
-from libs.functions import applyER_text, count_matches, sub_array ,split_array
-from libs.objects import Author, Document
+from libs.objects import create_objects,Author,Document
+from libs.functions import listToString
 from libs.grafo import Grafo
 from libs.html_indexer import write_to_file, write_document
+import graphviz
+import sys,getopt
 
 PATH = 'input_files/'
 OUT_PATH = 'output_files/'
 FILENAME = 'exemplo-utf8.bib'
 FILE = PATH+FILENAME
 
-CATEGORY_ER = r'@([a-zA-Z]+)'
-KEY_ER = r'\{([a-zA-Z0-9.:\-\\]+),\n'
-AUTHOR_ER = r'(?i:author)[ \t]*=[ \t]*[{"]([^}"]+)[\n\t ]*[}"]' 
-TITLE_ER = r' (?i:title)[ \t]*=[ \t]*((.+?|[\n\t ])*?)(?=[}"] ?,)'
-EXTRACT_NAME_ER = r'([A-Z])(.+ +)+(.+)$'
+HELP = 'main.py <Runs everything>\n\
+        -A "authors name" <Shows every publication by that author>\n\
+        -G <Shows the graph of every author and their colaborators>\n\
+        -G "authors name" <Shows the graph of that author and his/hers colaborators>\n\
+        -H <Prints Help>\n\
+        -E <Writes html file for exercise 1>\n\
+        -e <Writes html file for exercise 2>'
 
 
 if __name__ == '__main__':
-    categories =applyER_text(CATEGORY_ER,FILE,1)
-    keys = applyER_text(KEY_ER,FILE,1)
-    authors = split_array(sub_array(sub_array(sub_array(applyER_text(AUTHOR_ER,FILE,1),r'[ \-\n\t{]+'," "),r'^ ',r''),r'([ ]+and)([ ]+and[ ]*)',r'\2'),'[ ]+and[ ]*')
-    titles = sub_array(sub_array(applyER_text(TITLE_ER,FILE,1),r'^[{"]',""),r'[\n\t ]+',r' ')
+    DOCUMENTS,dic_authors,dic_categories = create_objects()
 
-    DOCUMENTS = [Document(categories[i],authors[i],titles[i],keys[i]) for i in range(len(keys))]
+    if len(sys.argv) > 1:
+        opts, args = getopt.getopt(sys.argv[1:],"A,G,D,H,E,e")
+        for opt,arg in opts:
+            if opt == '-A':
+                    try:
+                        dic_authors[listToString(args)].print_author()
+                    except:
+                        continue
+            if opt == '-G':
+                if len(args) == 0:
+                    grafo=Grafo()
+                    grafo.load_names(list(dic_authors.values()))
+                    grafo.map_authors()
+                    grafo.generate_graph(OUT_PATH+"authors_colaborations.dot")
+                    total_graph = graphviz.Source.from_file(OUT_PATH+"authors_colaborations.dot")
+                    total_graph.render(OUT_PATH+'authors_colaborations.dot',view = True)
+                elif len(args) == 1:
+                    grafo=Grafo()
+                    grafo.load_names(list(dic_authors.values()))
+                    grafo.map_authors()
+                    grafo.generate_graph_author(dic_authors[listToString(args)],OUT_PATH+"author_colaboration.dot")
+                    author_graph = graphviz.Source.from_file(OUT_PATH+"author_colaboration.dot")
+                    author_graph.render(OUT_PATH+'author_colaboration.dot',view = True)
+            if opt == '-H':
+                    print(HELP)
+    else:
+        write_to_file(dic_categories,OUT_PATH+"exercise2.html")
+        write_document(DOCUMENTS,OUT_PATH+"exercise1.html")
 
-    dic_categories = count_matches(categories)
-    dic_authors = {}
-    for doc in DOCUMENTS:
-        for auth in doc.authors:
-            aux_auth = Author(auth)
-            aux_auth.add_publication(doc)
-            try:
-                dic_authors[auth].concat_author(aux_auth)
-            except:
-                dic_authors[auth] = aux_auth
-    
-    authors = list(dic_authors.keys())
-    for auth in authors:
-        for bauth in authors:
-            if auth == bauth:
-                continue
-            if dic_authors[auth].is_samePerson(dic_authors[bauth]):
-                if len(bauth) > len(auth):
-                    auth,bauth = bauth,auth
-                dic_authors[auth].concat_author(dic_authors[bauth])
-                dic_authors.pop(bauth)
-                authors.remove(bauth)
-
-    authors = list(dic_authors.keys())
-    authors.sort()
-    dic_names = {}
-    for i,a in enumerate(authors):
-        try:
-            dic_names[dic_authors[a].get_iniciales()] += [dic_authors[a]]
-        except:
-            dic_names[dic_authors[a].get_iniciales()] = [dic_authors[a]]
-        author = dic_authors[a]
-
-    for a in authors:
-        dic_authors[a].clean_authors(dic_names)
-
-    for doc in DOCUMENTS:
-        doc.clear_authors(dic_names)
-    
-    write_to_file(dic_categories,OUT_PATH+"exercise2.html")
-    write_document(DOCUMENTS,OUT_PATH+"exercise1.html")
-
-    grafo=Grafo()
-    grafo.load_names(list(dic_authors.values()))
-    grafo.map_authors()
-    grafo.generate_graph("authors_colaborations.txt")
-    grafo.generate_graph_author(dic_authors['Alexandre Carvalho'],"author_colaboration.txt")
-
-
+        grafo=Grafo()
+        grafo.load_names(list(dic_authors.values()))
+        grafo.map_authors()
+        grafo.generate_graph(OUT_PATH+"authors_colaborations.dot")
+        grafo.generate_graph_author(dic_authors['Pedro Rangel Henriques'],OUT_PATH+"author_colaboration.dot")
+        
+        total_graph = graphviz.Source.from_file(OUT_PATH+"authors_colaborations.dot")
+        total_graph.render(OUT_PATH+'authors_colaborations.gv',view = True)
+        author_graph = graphviz.Source.from_file(OUT_PATH+"author_colaboration.dot")
+        author_graph.render(OUT_PATH+'author_colaboration.gv',view = True)

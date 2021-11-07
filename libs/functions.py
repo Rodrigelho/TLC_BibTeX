@@ -1,6 +1,5 @@
 import re
 
-
 def applyER_text(ER,file,ngroup=0):
     matches = []
     with open(file,'r',encoding='UTF-8') as f:
@@ -85,3 +84,10 @@ def get_specialchars(m):
     special_char = m[1]
     trade_char = special_chars[special_char]
     return trade_char
+
+def listToString(s): 
+    str1 = "" 
+    for ele in s: 
+        str1 += ele  
+    return str1 
+        
