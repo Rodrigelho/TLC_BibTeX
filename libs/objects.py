@@ -1,15 +1,10 @@
 import re
 from libs.functions import sub_array, get_specialchars,applyER_text,split_array,count_matches
+import pickle
 
 EXTRACT_NAME_ER = r'([A-Z])(.+ +)+(.+)$'
 CORRECT_NAME_ER = r'(.+), *(.+)'
 SPECIAL_CHARS_ER = r"\\([´`~^'][aeiou])"
-
-PATH = 'input_files/'
-OUT_PATH = 'output_files/'
-FILENAME = 'exemplo-utf8.bib'
-FILE = PATH+FILENAME
-
 
 class Document:
     def __init__(self,category,authors,title,key):
@@ -136,7 +131,7 @@ class Author(Person):
             colaborators = dic[aux.get_iniciales()]
             for colab in colaborators:
                 if colab.is_samePerson(aux):
-                    aux_colaborators.append(colab)
+                    aux_colaborators.append(colab.get_name())
         self.colaborators = aux_colaborators
     
 
@@ -148,7 +143,7 @@ class Author(Person):
     def print_colaborators(self):
         print(f'{self.get_name()}:\n  Colaboradores:')
         for colab in self.colaborators:
-            print(f'\t -{colab.get_name()}')
+            print(f'\t -{colab}')
 
 CATEGORY_ER = r'@([a-zA-Z]+)'
 KEY_ER = r'\{([a-zA-Z0-9.:\-\\]+),\n'
@@ -156,7 +151,9 @@ AUTHOR_ER = r'(?i:author)[ \t]*=[ \t]*[{"]([^}"]+)[\n\t ]*[}"]'
 TITLE_ER = r' (?i:title)[ \t]*=[ \t]*((.+?|[\n\t ])*?)(?=[}"] ?,)'
 EXTRACT_NAME_ER = r'([A-Z])(.+ +)+(.+)$'
 
-def create_objects():
+
+def create_objects(PATH,FILENAME):
+    FILE = PATH+FILENAME
     categories =applyER_text(CATEGORY_ER,FILE,1)
     keys = applyER_text(KEY_ER,FILE,1)
     authors = split_array(sub_array(sub_array(sub_array(applyER_text(AUTHOR_ER,FILE,1),r'[ \-\n\t{]+'," "),r'^ ',r''),r'([ ]+and)([ ]+and[ ]*)',r'\2'),'[ ]+and[ ]*')
@@ -199,6 +196,35 @@ def create_objects():
     for a in authors:
         dic_authors[a].clean_authors(dic_names)
 
+    dic_documents = {}
+
     for doc in DOCUMENTS:
         doc.clear_authors(dic_names)
-    return DOCUMENTS,dic_authors,dic_categories
+        dic_documents[doc.key] = doc
+
+    return dic_documents,dic_authors,dic_categories
+
+LIBRARY_PATH = 'library/'
+
+def save_objects(INPUT_PATH,FILENAME):
+    dic_documents,dic_authors,dic_categories = create_objects(INPUT_PATH,FILENAME)
+    docs = open(LIBRARY_PATH+'data_documents.pkl','wb')
+    pickle.dump(dic_documents,docs,pickle.HIGHEST_PROTOCOL)
+    docs.close()
+    docs = open(LIBRARY_PATH+'data_authors.pkl','wb')
+    pickle.dump(dic_authors,docs,pickle.HIGHEST_PROTOCOL)
+    docs.close()
+    docs = open(LIBRARY_PATH+'data_categories.pkl','wb')
+    pickle.dump(dic_categories,docs,pickle.HIGHEST_PROTOCOL)
+    docs.close()
+
+def open_objects(key):
+    if key == 'authors':
+        docs = open(LIBRARY_PATH+'data_authors.pkl','rb')
+        return pickle.load(docs)
+    if key == 'documents':
+        docs = open(LIBRARY_PATH+'data_documents.pkl','rb')
+        return pickle.load(docs)
+    if key == 'categories':
+        docs = open(LIBRARY_PATH+'data_categories.pkl','rb')
+        return pickle.load(docs)
