@@ -37,9 +37,25 @@ if __name__ == '__main__':
         opts, args = getopt.getopt(sys.argv[1:],"A,C,G,D,H,E,e,B")
         for opt,arg in opts:
             if opt == '-A':
-                    dic_authors[listToString(args)].print_author()
+                if len(args) == 1:
+                    try:
+                        dic_authors[listToString(args)].print_author()
+                    except KeyError:
+                        print('O autor inserido nao e valido')
+                elif len(args) == 0:
+                    print('AUTORES: ')
+                    for author in dic_authors:
+                        print(f'  - {author}')
+                else:
+                    opt = '-H'
             if opt == '-C':
-                    dic_authors[listToString(args)].print_colaborators()
+                if len(args) == 1:
+                    try:
+                        dic_authors[listToString(args)].print_colaborators()
+                    except KeyError:
+                        print('O autor inserido nao e valido')
+                else:
+                    opt = '-H'
             if opt == '-G':
                 grafo=Grafo()
                 grafo.load_names(list(dic_authors.values()))
@@ -56,6 +72,8 @@ if __name__ == '__main__':
                     author_graph = graphviz.Source.from_file(DOT_PATH+FILE_GRAPH+".dot")
                     author_graph.render(GRAPH_PATH+FILE_GRAPH,view = True)
                     os.remove(GRAPH_PATH+FILE_GRAPH)
+                else:
+                    opt = '-H'
             if opt == '-E':
                 write_document(DOCUMENTS,OUT_PATH+"exercise1.html")
             if opt == '-e':
