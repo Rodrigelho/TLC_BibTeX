@@ -1,3 +1,0 @@
-digraph G{
-  "Alexandre Carvalho"->{  "Alberto Manuel Brandão Simões","António R. Fernandes","José João Dias de Almeida"}[arrowhead="none"]
-}

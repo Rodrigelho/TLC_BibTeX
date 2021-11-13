@@ -1,3 +1,4 @@
+import re
 
 PATH = 'input_files/'
 base_file=PATH+"html_base.txt"
@@ -21,7 +22,7 @@ def convert2HTML(dic):
     s = '<UL>\n'
     tags = [x for x in dic]
     for tag in tags:
-        s += f'\t<LI>{tag[1:]}: {dic[tag]}</LI>\n'
+        s += f'\t<LI>{tag[0:]}: {dic[tag]}</LI>\n'
     s += '</UL>'
     return s
 
@@ -33,7 +34,7 @@ def write_to_file(dic,file):
     write_file(text,file)
 
 
-def parse_search(matches,file):
+def parse_search(matches):
     return convert2HTML(matches)
 
 def parse_document(doc):
@@ -44,26 +45,12 @@ def parse_document(doc):
         authors += auth 
         if(i<len(doc.Authors)>1):
             authors+=","
-
-    s='<div id="box" align="center"><div text-align="left">'
-    s='<div id="box" align="center"><div text-align="left">'
-    s+="<strong>"+str(doc.title)+"</strong>"
-    s+="<strong>"
-    title=""
-    for j in range(1,len(list(doc.title))):
-        title+=doc.title[j-1]
-        if(j % 31==0):
-            title+= "-\n"
-        j+=1
-
-    s+=title+"</strong>"
-    for i in range(1,len(list(authors))):
-        if(i % 40==0):
-            authors=str(authors[:i])+"-\n"+str(authors[i:])
-        i+=1
-    s+="<p> Autores:"+str(authors)+" </p>"
-    s+="<p> Categoría:"+str(doc.category)  +" </p>"
-    s+="<p> Clave:"+str(doc.key)+" </p>"
+    title = re.sub(r'\\.+{([^}]+)}',r'<textsc>\1</textsc>',str(doc.title))
+    s='<div id="box" align="center"><div id="text_box" text-align="left">\n'
+    s+="<h1><strong>"+re.sub(r'{([^}]+)}',r'\1',title)+"</strong></h1>\n"
+    s+="\t<p> <strong>Autores:</strong> "+str(authors)+" </p>\n"
+    s+="\t<p> <strong>Categoría:</strong> "+str(doc.category)  +" </p>\n"
+    s+="\t<p> <strong>Clave:</strong> "+str(doc.key)+" </p>\n"
     s+="</div></div>"
     return s
 

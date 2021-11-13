@@ -45,7 +45,7 @@ class Grafo:
         return text
 
     def generate_graph(self,file):
-        f=open(file,"a", encoding="UTF-8")
+        f=open(file,"w", encoding="UTF-8")
         f.write("digraph G{\n")
         for i in range(0,len(self.nodos)):
             f.write('"'+self.parse(self.nodos[i].get_name()+'"'+"->{"))
@@ -64,7 +64,7 @@ class Grafo:
 
     def generate_graph_author(self,author,file):
         i=self.extract_position(author)
-        f=open(file,"a", encoding="UTF-8")
+        f=open(file,"w", encoding="UTF-8")
         f.write("digraph G{\n")
         f.write('"'+self.parse(self.nodos[i].get_name()+'"'+"->{"))
         first=True
