@@ -17,7 +17,8 @@ HELP = 'main.py <Runs everything>\n\
         -G "authors name" <Shows the graph of that author and his/hers colaborators>\n\
         -H <Prints Help>\n\
         -E <Writes html file for exercise 1>\n\
-        -e <Writes html file for exercise 2>'
+        -e <Writes html file for exercise 2>\n\
+        -B <Shows every author>'
 
 
 if __name__ == '__main__':
@@ -33,7 +34,7 @@ if __name__ == '__main__':
         os.mkdir(GRAPH_PATH)
 
     if len(sys.argv) > 1:
-        opts, args = getopt.getopt(sys.argv[1:],"A,C,G,D,H,E,e")
+        opts, args = getopt.getopt(sys.argv[1:],"A,C,G,D,H,E,e,B")
         for opt,arg in opts:
             if opt == '-A':
                     dic_authors[listToString(args)].print_author()
@@ -55,8 +56,15 @@ if __name__ == '__main__':
                     author_graph = graphviz.Source.from_file(DOT_PATH+FILE_GRAPH+".dot")
                     author_graph.render(GRAPH_PATH+FILE_GRAPH,view = True)
                     os.remove(GRAPH_PATH+FILE_GRAPH)
+            if opt == '-E':
+                write_document(DOCUMENTS,OUT_PATH+"exercise1.html")
+            if opt == '-e':
+                write_to_file(dic_categories,OUT_PATH+"exercise2.html")
             if opt == '-H':
-                    print(HELP)
+                print(HELP)
+            if opt == '-B':
+                for a in dic_authors:
+                    print(dic_authors[a].get_name())
     else:
         write_to_file(dic_categories,OUT_PATH+"exercise2.html")
         write_document(DOCUMENTS,OUT_PATH+"exercise1.html")
