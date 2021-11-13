@@ -43,9 +43,8 @@ if __name__ == '__main__':
                     except KeyError:
                         print('O autor inserido nao e valido')
                 elif len(args) == 0:
-                    print('AUTORES: ')
                     for author in dic_authors:
-                        print(f'  - {author}')
+                        dic_authors[author].print_author()
                 else:
                     opt = '-H'
             if opt == '-C':
