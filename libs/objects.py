@@ -141,14 +141,14 @@ class Author(Person):
     
 
     def print_author(self):
-        print(f'{self.raw_name}:\n  Publicaciones:')
+        print(f'{self.get_name()}:\n  Publicaciones:')
         for pub in self.publications:
             print(f'\t -{pub}')
-        print(f'  Colaboradores:')
-        colaborators = list(self.colaborators.keys())
-        colaborators.sort()
-        for colab in colaborators:
-            print(f'    -{colab} = {self.colaborators[colab]}')
+    
+    def print_colaborators(self):
+        print(f'{self.get_name()}:\n  Colaboradores:')
+        for colab in self.colaborators:
+            print(f'\t -{colab.get_name()}')
 
 CATEGORY_ER = r'@([a-zA-Z]+)'
 KEY_ER = r'\{([a-zA-Z0-9.:\-\\]+),\n'

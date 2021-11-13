@@ -37,15 +37,30 @@ if __name__ == '__main__':
         opts, args = getopt.getopt(sys.argv[1:],"A,C,G,D,H,E,e,B")
         for opt,arg in opts:
             if opt == '-A':
-                    dic_authors[listToString(args)].print_author()
+                if len(args) == 1:
+                    try:
+                        dic_authors[listToString(args)].print_author()
+                    except KeyError:
+                        print('O autor inserido nao e valido')
+                elif len(args) == 0:
+                    for author in dic_authors:
+                        dic_authors[author].print_author()
+                else:
+                    opt = '-H'
             if opt == '-C':
-                    dic_authors[listToString(args)].print_colaborators()
+                if len(args) == 1:
+                    try:
+                        dic_authors[listToString(args)].print_colaborators()
+                    except KeyError:
+                        print('O autor inserido nao e valido')
+                else:
+                    opt = '-H'
             if opt == '-G':
                 grafo=Grafo()
                 grafo.load_names(list(dic_authors.values()))
                 grafo.map_authors()
                 if len(args) == 0:
-                    FILE_NAME = "authors_colaborations"
+                    FILE_GRAPH = "authors_colaborations"
                     grafo.generate_graph(DOT_PATH+FILE_GRAPH+".dot")
                     total_graph = graphviz.Source.from_file(DOT_PATH+FILE_GRAPH+".dot")
                     total_graph.render(GRAPH_PATH+FILE_GRAPH,view = True)
@@ -56,6 +71,8 @@ if __name__ == '__main__':
                     author_graph = graphviz.Source.from_file(DOT_PATH+FILE_GRAPH+".dot")
                     author_graph.render(GRAPH_PATH+FILE_GRAPH,view = True)
                     os.remove(GRAPH_PATH+FILE_GRAPH)
+                else:
+                    opt = '-H'
             if opt == '-E':
                 write_document(DOCUMENTS,OUT_PATH+"exercise1.html")
             if opt == '-e':
@@ -69,13 +86,3 @@ if __name__ == '__main__':
         write_to_file(dic_categories,OUT_PATH+"exercise2.html")
         write_document(DOCUMENTS,OUT_PATH+"exercise1.html")
 
-        grafo=Grafo()
-        grafo.load_names(list(dic_authors.values()))
-        grafo.map_authors()
-        grafo.generate_graph(DOT_PATH+"authors_colaborations.dot")
-        grafo.generate_graph_author(dic_authors['Pedro Rangel Henriques'],DOT_PATH+"author_colaboration.dot")
-        
-        total_graph = graphviz.Source.from_file(DOT_PATH+"authors_colaborations.dot")
-        total_graph.render(GRAPH_PATH+'authors_colaborations',view = True)
-        author_graph = graphviz.Source.from_file(DOT_PATH+"author_colaboration.dot")
-        author_graph.render(GRAPH_PATH+'author_colaboration.gv',view = True)

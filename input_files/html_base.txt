@@ -10,35 +10,25 @@
 body {
 	margin:10px;
     background:#B0C4DE;
-	
 }
 
 #box {
 	margin:auto;
     margin-bottom: 50px;
-    width:600px;
-	padding:50px;
+    width: 50%;
+	padding:25px;
 	background:#F0FFFF;
-    white-space:pre;
 	font-size:smaller;
 	font-family:monospace;    
     border: 2px solid grey;
     border-radius: 50px;
 }
 
+#text_box {width: fit-content;}
 
-strong{
-    font-size:25px;
-}
-p{
-    font-size:15px;
-}
+p {font-size:15px;}
 
-
-
-
-
-
+textsc {font-variant: petite-caps }
 
 </style>
 
