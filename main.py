@@ -1,7 +1,7 @@
 from libs.objects import create_objects
 from libs.functions import listToString
 from libs.grafo import Grafo
-from libs.html_indexer import write_to_file, write_document
+from libs.html_indexer import convert2HTML,write_document,write_file
 import graphviz
 import sys,getopt
 import os
@@ -34,7 +34,7 @@ if __name__ == '__main__':
         os.mkdir(GRAPH_PATH)
 
     if len(sys.argv) > 1:
-        opts, args = getopt.getopt(sys.argv[1:],"A,C,G,D,H,E,e,B")
+        opts, args = getopt.getopt(sys.argv[1:],"A,C,G,D,H,E,B")
         for opt,arg in opts:
             if opt == '-A':
                 if len(args) == 1:
@@ -74,15 +74,11 @@ if __name__ == '__main__':
                 else:
                     opt = '-H'
             if opt == '-E':
-                write_document(DOCUMENTS,OUT_PATH+"exercise1.html")
-            if opt == '-e':
-                write_to_file(dic_categories,OUT_PATH+"exercise2.html")
+                TEXT = convert2HTML(dic_categories)+"\n<h1 align=\"center\">Documentos</h1></br>\n"+write_document(DOCUMENTS)
+                write_file(TEXT,OUT_PATH+'index.html')
             if opt == '-H':
                 print(HELP)
             if opt == '-B':
                 for a in dic_authors:
                     print(dic_authors[a].get_name())
-    else:
-        write_to_file(dic_categories,OUT_PATH+"exercise2.html")
-        write_document(DOCUMENTS,OUT_PATH+"exercise1.html")
 

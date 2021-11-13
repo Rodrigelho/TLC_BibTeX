@@ -19,23 +19,17 @@ def write_file(text, filename):
     c.close()
 
 def convert2HTML(dic):
-    s = '<UL>\n'
+    s = '''<div id="box" align="center"><table>
+    <tr>
+    <th>Categoria</th>
+    <th>Ocorrencias</th>
+    <tr>
+    '''
     tags = [x for x in dic]
     for tag in tags:
-        s += f'\t<LI>{tag[0:]}: {dic[tag]}</LI>\n'
-    s += '</UL>'
+        s += f'\t<tr>\n\t\t<td>{tag[0:]}</td>\n\t\t<td>{dic[tag]}</td>\n\t</tr>\n'
+    s += '</table></div>'
     return s
-
-
-
-
-def write_to_file(dic,file):
-    text= convert2HTML(dic)
-    write_file(text,file)
-
-
-def parse_search(matches):
-    return convert2HTML(matches)
 
 def parse_document(doc):
     authors=""
@@ -55,11 +49,11 @@ def parse_document(doc):
     return s
 
 
-def write_document(documents,file):
+def write_document(documents):
     text=""
     for document in documents:
         text += parse_document(document)
-    write_file(text,file)
+    return text
 
 
 
