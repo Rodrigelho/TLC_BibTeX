@@ -56,9 +56,8 @@ if __name__ == '__main__':
                 else:
                     opt = '-H'
             if opt == '-G':
-                grafo=Grafo()
-                grafo.load_names(list(dic_authors.values()))
-                grafo.map_authors()
+                grafo=Grafo(list(dic_authors.keys()))
+                grafo.map_authors(DOCUMENTS)
                 if len(args) == 0:
                     FILE_GRAPH = "authors_colaborations"
                     grafo.generate_graph(DOT_PATH+FILE_GRAPH+".dot")
@@ -67,7 +66,7 @@ if __name__ == '__main__':
                     os.remove(GRAPH_PATH+FILE_GRAPH)
                 elif len(args) == 1:
                     FILE_GRAPH = listToString(args)
-                    grafo.generate_graph_author(dic_authors[listToString(args)],DOT_PATH+FILE_GRAPH+".dot")
+                    grafo.generate_graph_author(listToString(args),DOT_PATH+FILE_GRAPH+".dot")
                     author_graph = graphviz.Source.from_file(DOT_PATH+FILE_GRAPH+".dot")
                     author_graph.render(GRAPH_PATH+FILE_GRAPH,view = True)
                     os.remove(GRAPH_PATH+FILE_GRAPH)

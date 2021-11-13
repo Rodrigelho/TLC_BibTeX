@@ -190,12 +190,11 @@ def create_objects():
     authors = list(dic_authors.keys())
     authors.sort()
     dic_names = {}
-    for i,a in enumerate(authors):
+    for a in authors:
         try:
             dic_names[dic_authors[a].get_iniciales()] += [dic_authors[a]]
         except:
             dic_names[dic_authors[a].get_iniciales()] = [dic_authors[a]]
-        author = dic_authors[a]
 
     for a in authors:
         dic_authors[a].clean_authors(dic_names)
