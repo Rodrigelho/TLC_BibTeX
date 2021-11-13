@@ -94,6 +94,12 @@ if __name__ == '__main__':
                     opt = '-H'
             if opt == '-E':
                 dic_categories = open_objects('categories')
+                dic_documents = open_objects('documents')
+                docs = list(dic_documents.keys())
+                docs.sort()
+                DOCUMENTS = []
+                for key in docs:
+                    DOCUMENTS.append(dic_documents[key])
                 TEXT = convert2HTML(dic_categories)+"\n<h1 align=\"center\">Documentos</h1></br>\n"+write_document(DOCUMENTS)
                 write_file(TEXT,OUT_PATH+'index.html')
             if opt == '-H':
