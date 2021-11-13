@@ -46,7 +46,17 @@ def parse_document(doc):
             authors+=","
 
     s='<div id="box" align="center"><div text-align="left">'
+    s='<div id="box" align="center"><div text-align="left">'
     s+="<strong>"+str(doc.title)+"</strong>"
+    s+="<strong>"
+    title=""
+    for j in range(1,len(list(doc.title))):
+        title+=doc.title[j-1]
+        if(j % 31==0):
+            title+= "-\n"
+        j+=1
+
+    s+=title+"</strong>"
     for i in range(1,len(list(authors))):
         if(i % 40==0):
             authors=str(authors[:i])+"-\n"+str(authors[i:])
