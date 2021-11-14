@@ -8,7 +8,7 @@
 </head>
 <style type="text/css">
 body {
-	margin:10px;
+	margin:0px;
     background:#B0C4DE;
 }
 
@@ -18,7 +18,6 @@ body {
     width: 50%;
 	padding:25px;
 	background:#F0FFFF;
-	font-size:smaller;
 	font-family:monospace;    
     border: 2px solid grey;
     border-radius: 50px;
@@ -26,19 +25,82 @@ body {
 
 #text_box {width: fit-content;}
 
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #B3B4F5;
+  font-size: 15px;
+  text-align: center;
+  padding: 8px;
+}
+
+th {
+    font-size: 20px;
+    background-color: #5B7BF0;
+}
+
+tr:nth-child(even) {
+  background-color: #B3B4F5;
+}
+
 p {font-size:15px;}
 
 textsc {font-variant: petite-caps }
 
+.header{
+    width:100%;
+    height:200px;
+    background:#1A53C6;
+    padding:10px 50px 10px 50px;
+    box-sizing:border-box;
+    box-shadow: 0px 10px 15px black;
+    margin: 0px 0px 20px 0px;
+    color:#FFFFFF
+}
+
+.content{
+    width:100%;
+    padding:10px;
+    height:100%;
+    box-sizing:border-box;
+    padding:10px;
+}
+
+.left{
+    width:30%;
+    float:left;
+    height:100%;
+}
+.right{
+    width:70%;
+    float:right;
+    text-align: right;
+    height:100%;
+}
+
 </style>
 
 <body>
-
+<div class='header'>
+    <div class='left'>
+        <h1><strong>BibTeXPro</strong></h1>
+    </div>
+    <div class='right'>
+        <h3><strong>Integrantes</strong></h3>
+        <p>Guillermo Astorga Manzanal E10340</p>
+        <p>Leander Reascos PG47264</p>
+        <p>Rodrigo Coelho PG47622</p>
+    </div>
+</div>
+<div class='content'>
 <h1 align="center">Categorias do BibTeX</h1>
-
 @
 
 
-
+</div>
 </body>
 </html>
