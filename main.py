@@ -105,6 +105,11 @@ if __name__ == '__main__':
             if opt == '-H':
                 print(HELP)
             if opt == '-B':
-                for a in dic_authors:
+                dic_authors = open_objects('authors')
+                list_authors = list(dic_authors.keys())
+                list_authors.sort()
+                for a in list_authors:
                     print(dic_authors[a].get_name())
 
+    else:
+        save_objects(INPUT_PATH,FILENAME)
