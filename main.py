@@ -13,14 +13,15 @@ OUT_PATH = 'output_files/'
 DOT_PATH = OUT_PATH+'dot/'
 GRAPH_PATH = OUT_PATH+'graph/'
 
-HELP = '-A "authors name" <Shows every publication by that author>\n\
-        -C "authors name" <Shows every colaborator by that author>\n\
+HELP = '-A <Prints every author and their publications>\n\
+        -A "authors name" <Prints every publication by that author>\n\
+        -C "authors name" <Prints every colaborator by that author>\n\
         -G < Creates dot file and shows the graph of every author and their colaborators>\n\
         -G "authors name" <Creates dot file and shows the graph of that author and his/hers colaborators>\n\
         -H <Prints Help>\n\
         -E <Writes html file for exercise 1>\n\
-        -B <Shows every author>\n\
-        -R "FileName.bib" <Read the bib file and make the Objects>'
+        -B <Prints every author>\n\
+        -R "FileName.bib" <Reads the bib file and make the Objects>'
 
 
 if __name__ == '__main__':

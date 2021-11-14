@@ -16,17 +16,10 @@ def split_array(array,er):
         array[k] = re.split(er,a)
     return array
 
-
 def sub_array(array,er,sub):
     for k,a in enumerate(array):
         array[k] = re.sub(er,sub,a)
     return array
-
-def search_array(array,er,ngroup=0):
-    matches = []
-    for a in array:
-        matches.append(re.search(er,a)).group(ngroup)
-    return matches
 
 def count_matches(matches):
     dic = {}

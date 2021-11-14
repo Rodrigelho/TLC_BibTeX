@@ -5,6 +5,10 @@ import pickle
 EXTRACT_NAME_ER = r'([A-Z])(.+ +)+(.+)$'
 CORRECT_NAME_ER = r'(.+), *(.+)'
 SPECIAL_CHARS_ER = r"\\([´`~^'][aeiou])"
+CATEGORY_ER = r'@([a-zA-Z]+)'
+KEY_ER = r'\{([a-zA-Z0-9.:\-\\]+),\n'
+AUTHOR_ER = r'(?i:author)[ \t]*=[ \t]*[{"]([^}"]+)[\n\t ]*[}"]' 
+TITLE_ER = r' (?i:title)[ \t]*=[ \t]*((.+?|[\n\t ])*?)(?=[}"] ?,)'
 
 class Document:
     def __init__(self,category,authors,title,key):
@@ -139,19 +143,13 @@ class Author(Person):
     def print_author(self):
         print(f'{self.get_name()}:\n  Publicaciones:')
         for pub in self.publications:
+            pub = re.sub(r'\\textsc',r'',re.sub(r'{([^}]+)}',r'\1',pub))
             print(f'\t -{pub}')
     
     def print_colaborators(self):
         print(f'{self.get_name()}:\n  Colaboradores:')
         for colab in self.colaborators:
             print(f'\t -{colab}')
-
-CATEGORY_ER = r'@([a-zA-Z]+)'
-KEY_ER = r'\{([a-zA-Z0-9.:\-\\]+),\n'
-AUTHOR_ER = r'(?i:author)[ \t]*=[ \t]*[{"]([^}"]+)[\n\t ]*[}"]' 
-TITLE_ER = r' (?i:title)[ \t]*=[ \t]*((.+?|[\n\t ])*?)(?=[}"] ?,)'
-EXTRACT_NAME_ER = r'([A-Z])(.+ +)+(.+)$'
-
 
 def create_objects(PATH,FILENAME):
     FILE = PATH+FILENAME
