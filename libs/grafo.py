@@ -49,9 +49,3 @@ class Grafo:
            
         f.write('}')
         f.close()
-
-
-
-
-
-
