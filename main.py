@@ -13,16 +13,14 @@ OUT_PATH = 'output_files/'
 DOT_PATH = OUT_PATH+'dot/'
 GRAPH_PATH = OUT_PATH+'graph/'
 
-HELP = 'main.py <Runs everything>\n\
-        -A "authors name" <Shows every publication by that author>\n\
+HELP = '-A "authors name" <Shows every publication by that author>\n\
         -C "authors name" <Shows every colaborator by that author>\n\
-        -G <Shows the graph of every author and their colaborators>\n\
-        -G "authors name" <Shows the graph of that author and his/hers colaborators>\n\
+        -G < Creates dot file and shows the graph of every author and their colaborators>\n\
+        -G "authors name" <Creates dot file and shows the graph of that author and his/hers colaborators>\n\
         -H <Prints Help>\n\
         -E <Writes html file for exercise 1>\n\
-        -e <Writes html file for exercise 2>\n\
         -B <Shows every author>\n\
-        -R "FileNaame.bib" <Read the bib file and make the Objects>'
+        -R "FileName.bib" <Read the bib file and make the Objects>'
 
 
 if __name__ == '__main__':
@@ -105,6 +103,6 @@ if __name__ == '__main__':
             if opt == '-H':
                 print(HELP)
             if opt == '-B':
+                dic_authors = open_objects('authors')
                 for a in dic_authors:
                     print(dic_authors[a].get_name())
-
