@@ -62,10 +62,11 @@ class Person:
     
     def is_samePerson(self,person):
         if self.DefaultName or person.DefaultName:
-            return 
+                return False
         if self.get_name() == person.get_name():
             return True
         FN = self.FirstName and person.FirstName and self.FirstName == person.FirstName
+
         MN = self.MiddleName and person.MiddleName and self.MiddleName == person.MiddleName
         LN = self.LastName and person.LastName and self.LastName == person.LastName
         IN = self.iniciales == person.iniciales
@@ -130,7 +131,7 @@ class Author(Person):
             aux = Person(auth)
             colaborators = dic[aux.get_iniciales()]
             for colab in colaborators:
-                if colab.is_samePerson(aux):
+                if colab.is_samePerson(aux) and colab.get_name() not in aux_colaborators:
                     aux_colaborators.append(colab.get_name())
         self.colaborators = aux_colaborators
     

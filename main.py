@@ -104,5 +104,7 @@ if __name__ == '__main__':
                 print(HELP)
             if opt == '-B':
                 dic_authors = open_objects('authors')
-                for a in dic_authors:
+                list_authors = list(dic_authors.keys())
+                list_authors.sort()
+                for a in list_authors:
                     print(dic_authors[a].get_name())
