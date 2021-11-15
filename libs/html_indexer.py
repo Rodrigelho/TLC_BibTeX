@@ -8,7 +8,7 @@ def write_file(text, filename):
     c=open(base_file,"r")
     html=""
     for line in c.readlines():
-        if(line.__contains__("@")):
+        if re.search(r'@',line):
             html+=text
         else:    
             html+=str(line)    
