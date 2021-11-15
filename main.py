@@ -80,15 +80,21 @@ if __name__ == '__main__':
                 if len(args) == 0:
                     FILE_GRAPH = "authors_colaborations"
                     grafo.generate_graph(DOT_PATH+FILE_GRAPH+".dot")
-                    total_graph = graphviz.Source.from_file(DOT_PATH+FILE_GRAPH+".dot")
-                    total_graph.render(GRAPH_PATH+FILE_GRAPH,view = True)
-                    os.remove(GRAPH_PATH+FILE_GRAPH)
+                    try:
+                        total_graph = graphviz.Source.from_file(DOT_PATH+FILE_GRAPH+".dot")
+                        total_graph.render(GRAPH_PATH+FILE_GRAPH,view = True)
+                        os.remove(GRAPH_PATH+FILE_GRAPH)
+                    except:
+                        print("O computador não tem o Graphviz instalado, logo não é possível gerar diretamente o pdf com o grafo.")
                 elif len(args) == 1:
                     FILE_GRAPH = listToString(args)
                     grafo.generate_graph_author(listToString(args),DOT_PATH+FILE_GRAPH+".dot")
-                    author_graph = graphviz.Source.from_file(DOT_PATH+FILE_GRAPH+".dot")
-                    author_graph.render(GRAPH_PATH+FILE_GRAPH,view = True)
-                    os.remove(GRAPH_PATH+FILE_GRAPH)
+                    try:
+                        author_graph = graphviz.Source.from_file(DOT_PATH+FILE_GRAPH+".dot")
+                        author_graph.render(GRAPH_PATH+FILE_GRAPH,view = True)
+                        os.remove(GRAPH_PATH+FILE_GRAPH)
+                    except:
+                        print("O computador não tem o Graphviz instalado, logo não é possível gerar diretamente o pdf com o grafo.")
                 else:
                     opt = '-H'
             if opt == '-E':
