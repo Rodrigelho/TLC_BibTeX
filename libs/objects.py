@@ -108,7 +108,7 @@ class Author(Person):
             self.colaborators.append(name)
             
     def add_publication(self,doc):
-        self.publications.append(doc.title)
+        self.publications.append(doc.key)
         for auth in doc.authors:
             if auth != self.raw_name:
                 self.add_colaborator(auth)
@@ -141,10 +141,14 @@ class Author(Person):
     
 
     def print_author(self):
-        print(f'{self.get_name()}:\n  Publicaciones:')
-        for pub in self.publications:
+        dic_documents = open_objects('documents')
+        NSPACES = max(map(len,self.publications))
+        print(f'{self.get_name()}:\n  Publicaciones:\n\t  |{" "*int(NSPACES/2-1)}KEY{" "*int(NSPACES/2-1)}|\t\tTITLE')
+        self.publications.sort
+        for key in self.publications:
+            pub = dic_documents[key].title
             pub = re.sub(r'\\textsc',r'',re.sub(r'{([^}]+)}',r'\1',pub))
-            print(f'\t -{pub}')
+            print(f'\t  * {key} {" "*(NSPACES-len(key))}- {pub}')
     
     def print_colaborators(self):
         print(f'{self.get_name()}:\n  Colaboradores:')
