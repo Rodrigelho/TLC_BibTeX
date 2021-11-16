@@ -1,0 +1,9 @@
+digraph G{
+"Nuno Oliveira"->"Bastian Cramer"[ label = "2", arrowhead="none"]
+"Nuno Oliveira"->"Daniela da Cruz"[ label = "11", arrowhead="none"]
+"Nuno Oliveira"->"Maria João Varanda Pereira"[ label = "10", arrowhead="none"]
+"Nuno Oliveira"->"Marjan Mernik"[ label = "4", arrowhead="none"]
+"Nuno Oliveira"->"Matej Crepinsek"[ label = "2", arrowhead="none"]
+"Nuno Oliveira"->"Pedro Rangel Henriques"[ label = "11", arrowhead="none"]
+"Nuno Oliveira"->"Tomaz Kosar"[ label = "4", arrowhead="none"]
+}

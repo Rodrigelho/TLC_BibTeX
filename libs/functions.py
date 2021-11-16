@@ -24,6 +24,7 @@ def sub_array(array,er,sub):
 def count_matches(matches):
     dic = {}
     for match in matches:
+        match = match.upper()
         try:
             dic[match] += 1
         except:
